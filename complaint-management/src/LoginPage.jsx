@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
+import api from './services/api';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -48,57 +49,43 @@ const LoginPage = () => {
     };
   }, []);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = async (e) => {
+  e.preventDefault();
 
-    const trimmedEmail = email.trim();
-    const trimmedPassword = password.trim();
+  try {
+    const response = await api.post('/auth/login', {
+      email,
+      password,
+      role: currentRole
+    });
 
-    if (!trimmedEmail || !trimmedPassword) {
-      showAlert('Please enter both email and password.');
-      return;
-    }
+    if (response.data.success) {
+      const { token, user } = response.data;
 
-    let isValid = false;
-    let userData = null;
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
 
-    if (currentRole === 'employee') {
-      if (trimmedEmail.endsWith('@company.com') && trimmedPassword === 'password123') {
-        isValid = true;
-        userData = {
-          name: 'Arjun Kumar',
-          email: trimmedEmail,
-          role: 'employee',
-          department: 'HR',
-          avatar: 'AK'
-        };
-      } else {
-        showAlert('Invalid employee credentials. Use employee@company.com / password123');
-      }
-    } else if (currentRole === 'admin') {
-      if (trimmedEmail === 'admin@company.com' && trimmedPassword === 'admin123') {
-        isValid = true;
-        userData = {
-          name: 'Admin User',
-          email: trimmedEmail,
-          role: 'admin',
-          department: 'Administration',
-          avatar: 'AU'
-        };
-      } else {
-        showAlert('Invalid admin credentials. Use admin@company.com / admin123');
-      }
-    }
+      showAlert(`✅ Welcome ${user.full_name}! Redirecting...`, 'success');
 
-    if (isValid && userData) {
-      localStorage.setItem('user', JSON.stringify(userData));
-      showAlert(`✅ Welcome ${userData.name}! Redirecting...`, 'success');
-      
       setTimeout(() => {
-        navigate(`/${userData.role}-dashboard`);
+        const role = user.role.toLowerCase();
+
+        if (role === 'admin') {
+          navigate('/admin-dashboard');
+        } else if (role === 'manager') {
+          navigate('/manager-dashboard');
+        } else {
+          navigate('/employee-dashboard');
+        }
       }, 800);
     }
-  };
+
+  } catch (error) {
+    showAlert(
+      error.response?.data?.message || 'Login failed. Please try again.'
+    );
+  }
+};
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
