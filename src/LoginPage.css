@@ -1,0 +1,186 @@
+/* Login Page Styles */
+
+.login-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #F2F4F8;
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: white;
+  border-radius: 16px;
+  padding: 40px 36px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: #2563EB;
+  color: white;
+  border-radius: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.logo-text strong {
+  display:block;
+  font-size:18px;
+}
+
+.logo-text span {
+  color:#64748B;
+  font-size:12px;
+}
+
+
+.login-title {
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+.login-sub {
+  color:#64748B;
+  margin-bottom:25px;
+}
+
+
+.alert {
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:20px;
+}
+
+.alert-success {
+  background:#DCFCE7;
+  color:#166534;
+}
+
+.alert-error {
+  background:#FEE2E2;
+  color:#991B1B;
+}
+
+
+.role-toggle {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:25px;
+}
+
+
+.role-btn {
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  background:#F1F5F9;
+  font-weight:600;
+}
+
+
+.role-btn.active {
+  background:#2563EB;
+  color:white;
+}
+
+
+.form-group {
+  margin-bottom:18px;
+}
+
+
+.form-label {
+  display:block;
+  margin-bottom:6px;
+  font-weight:600;
+}
+
+
+.input-wrap {
+  position:relative;
+}
+
+
+.input-wrap i {
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+}
+
+
+.input-wrap input {
+  width:100%;
+  padding:12px 12px 12px 40px;
+  border:1px solid #D1D5DB;
+  border-radius:8px;
+}
+
+
+.form-options {
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+
+
+.btn-login {
+  width:100%;
+  padding:13px;
+  border:none;
+  border-radius:8px;
+  background:#2563EB;
+  color:white;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+
+.btn-login:hover {
+  background:#1D4ED8;
+}
+
+
+.role-indicator {
+  display:inline-flex;
+  padding:5px 15px;
+  border-radius:20px;
+  margin-top:15px;
+}
+
+
+.role-indicator.employee {
+  background:#EFF6FF;
+  color:#2563EB;
+}
+
+
+.role-indicator.admin {
+  background:#EDE9FE;
+  color:#7C3AED;
+}
+
+
+.login-footer {
+  text-align:center;
+  margin-top:25px;
+  color:#64748B;
+}
