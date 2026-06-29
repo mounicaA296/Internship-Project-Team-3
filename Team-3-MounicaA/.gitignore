@@ -1,0 +1,14 @@
+# Ignore dependencies
+**/node_modules/
+
+# Ignore Vite cache
+**/.vite/
+
+# Environment files
+.env
+**/.env
+
+# OS files
+.DS_Store
+Thumbs.db
+node_modules/
