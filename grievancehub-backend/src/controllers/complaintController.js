@@ -41,6 +41,59 @@ const createComplaint = async (req, res) => {
         });
     }
 };
+// Get all complaints
+const getAllComplaints = async (req, res) => {
+    try {
+        const complaints = await Complaint.find()
+            .populate('raised_by', 'full_name email')
+            .populate('dept_id', 'dept_name')
+            .populate('status_id', 'label color_code')
+            .sort({ created_at: -1 });
+
+        res.status(200).json({
+            success: true,
+            count: complaints.length,
+            data: complaints
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
+    }
+};
+// Get complaint by ID
+const getComplaintById = async (req, res) => {
+    try {
+        const complaint = await Complaint.findById(req.params.id)
+            .populate('raised_by', 'full_name email')
+            .populate('dept_id', 'dept_name')
+            .populate('status_id', 'label color_code');
+
+        if (!complaint) {
+            return res.status(404).json({
+                success: false,
+                message: 'Complaint not found'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: complaint
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
+    }
+};
 
 // Temporary upload function
 const uploadAttachment = async (req, res) => {
@@ -94,5 +147,7 @@ const uploadAttachment = async (req, res) => {
 
 module.exports = {
     createComplaint,
+    getAllComplaints,
+    getComplaintById,
     uploadAttachment
 };

@@ -9,6 +9,11 @@ const {
     validateResult
 } = require('../middleware/validation');
 const { upload, handleUploadError } = require('../middleware/upload');
+router.get(
+    '/',
+    authenticate,
+    ComplaintController.getAllComplaints
+);
 router.post(
     '/',
     authenticate,
