@@ -27,6 +27,4 @@ const DepartmentSchema = new mongoose.Schema({
 DepartmentSchema.index({ dept_name: 1 });
 
 
-const Department = mongoose.model('Department', DepartmentSchema);
-
-module.exports = Department;
+module.exports = mongoose.models.Department || mongoose.model('Department', DepartmentSchema);

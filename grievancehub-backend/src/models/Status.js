@@ -28,6 +28,4 @@ const StatusSchema = new mongoose.Schema({
 StatusSchema.index({ label: 1 });
 
 
-const Status = mongoose.model('Status', StatusSchema);
-
-module.exports = Status;
+module.exports = mongoose.models.Status || mongoose.model('Status', StatusSchema);

@@ -134,7 +134,7 @@ if (password.length < 6) {
 const user = await User.create({
     full_name,
     email,
-    password_hash: Password,
+    password_hash: password,
     role,
     department_id,
     is_active: true

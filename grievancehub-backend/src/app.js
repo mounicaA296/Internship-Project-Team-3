@@ -5,7 +5,8 @@ const morgan = require('morgan');
 require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
-
+const complaintRoutes = require('./routes/complaintRoutes');
+const { generalLimiter } = require('./middleware/rateLimiter');
 const app = express();
 
 // Security
@@ -25,9 +26,10 @@ if (process.env.NODE_ENV === 'development') {
 // Body parsing
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
+app.use(generalLimiter);
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/complaints', complaintRoutes);
 
 // Root route
 app.get('/', (req, res) => {

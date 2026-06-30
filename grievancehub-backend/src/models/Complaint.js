@@ -265,8 +265,4 @@ ComplaintSchema.index({ 'notifications.is_read': 1 });
 ComplaintSchema.virtual('complaint_id').get(function() {
     return this._id.toString().slice(-6).toUpperCase();
 });
-
-
-const Complaint = mongoose.model('Complaint', ComplaintSchema);
-
-module.exports = Complaint;
+module.exports = mongoose.models.Complaint || mongoose.model('Complaint', ComplaintSchema);
