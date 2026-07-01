@@ -7,12 +7,12 @@ const ActivityLogSchema = new mongoose.Schema({
         required: true,
         index: true
     },
-    complaint_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Complaint',
-        required: true,
-        index: true
-    },
+   complaint_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Complaint',
+    default: null,
+    index: true
+},
     action: {
         type: String,
         required: true,
@@ -60,10 +60,9 @@ const ActivityLogSchema = new mongoose.Schema({
 ActivityLogSchema.index({ complaint_id: 1, created_at: -1 });
 
 // Prevent updates (immutable)
-ActivityLogSchema.pre('save', function(next) {
+ActivityLogSchema.pre('save', function() {
     if (!this.isNew) {
-        return next(new Error('Activity log entries cannot be updated'));
+        throw new Error('Activity log entries cannot be updated');
     }
-    next();
 });
 module.exports = mongoose.models.ActivityLog || mongoose.model('ActivityLog', ActivityLogSchema);

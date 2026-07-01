@@ -42,10 +42,21 @@ const UserSchema = new mongoose.Schema({
         default: true
     },
 
-    profile_photo: {
-        type: String,
-        default: null
-    }
+   profile_photo: {
+    type: String,
+    default: null
+},
+
+phone: {
+    type: String,
+    maxlength: [15, 'Phone number cannot exceed 15 characters'],
+    default: null
+},
+
+last_login: {
+    type: Date,
+    default: null
+}
 
 }, {
     timestamps: {

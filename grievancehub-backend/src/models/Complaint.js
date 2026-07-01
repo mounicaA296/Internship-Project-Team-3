@@ -212,6 +212,11 @@ const ComplaintSchema = new mongoose.Schema({
         ref: 'Status',
         required: true
     },
+category_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    default: null
+},
 
     location: {
         type: String,

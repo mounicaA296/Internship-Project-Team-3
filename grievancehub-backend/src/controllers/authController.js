@@ -5,7 +5,7 @@ require('dotenv').config();
 
 class AuthController {
 
-    // LOGIN
+    // ===================== LOGIN =====================
     static async login(req, res) {
         try {
             const { email, password, role } = req.body;
@@ -35,7 +35,11 @@ class AuthController {
                 });
             }
 
-            const isPasswordValid = await user.comparePassword(password);
+            const isPasswordValid = await bcrypt.compare(
+                password,
+                user.password_hash
+            );
+            
 
             if (!isPasswordValid) {
                 return res.status(401).json({
@@ -50,43 +54,44 @@ class AuthController {
                     message: `Invalid role. You are logged in as ${user.role}`
                 });
             }
-await User.findByIdAndUpdate(
-    user._id,
-    {
-        last_login: new Date()
-    }
-);
-           const token = jwt.sign(
-    {
-        user_id: user._id,
-        email: user.email,
-        full_name: user.full_name,
-        role: user.role,
-        department_id: user.department_id?._id || null
-    },
-    process.env.JWT_SECRET,
-    {
-        expiresIn: process.env.JWT_EXPIRE || '7d'
-    }
-);
+
+            await User.findByIdAndUpdate(user._id, {
+                last_login: new Date()
+            });
+
+            const token = jwt.sign(
+                {
+                    user_id: user._id,
+                    email: user.email,
+                    full_name: user.full_name,
+                    role: user.role,
+                    department_id: user.department_id?._id || null
+                },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: process.env.JWT_EXPIRE || '7d'
+                }
+            );
 
             return res.status(200).json({
-    success: true,
-    message: 'Login successful!',
-    token,
-    user: {
-        user_id: user._id,
-        full_name: user.full_name,
-        email: user.email,
-        role: user.role,
-        department: user.department_id?.dept_name || null,
-        avatar: user.profile_photo || user.full_name
-            .split(' ')
-            .map(name => name[0])
-            .join('')
-            .toUpperCase()
-    }
-});
+                success: true,
+                message: 'Login successful!',
+                token,
+                user: {
+                    user_id: user._id,
+                    full_name: user.full_name,
+                    email: user.email,
+                    role: user.role,
+                    department: user.department_id?.dept_name || null,
+                    avatar: user.profile_photo
+                        ? user.profile_photo
+                        : user.full_name
+                              .split(' ')
+                              .map(name => name[0])
+                              .join('')
+                              .toUpperCase()
+                }
+            });
 
         } catch (error) {
             console.error('Login error:', error);
@@ -97,29 +102,32 @@ await User.findByIdAndUpdate(
             });
         }
     }
-    // REGISTER / SIGNUP
+
+    // ===================== REGISTER =====================
     static async register(req, res) {
         try {
-            const { 
-    full_name, 
-    email, 
-    password, 
-    role = 'employee', 
-    department_id = null 
-} = req.body;
+            const {
+                full_name,
+                email,
+                password,
+                role = 'employee',
+                department_id = null
+            } = req.body;
 
             if (!full_name || !email || !password) {
-    return res.status(400).json({
-        success: false,
-        message: 'Full name, email, and password are required'
-    });
-}
-if (password.length < 6) {
-    return res.status(400).json({
-        success: false,
-        message: 'Password must be at least 6 characters'
-    });
-}
+                return res.status(400).json({
+                    success: false,
+                    message: 'Full name, email, and password are required'
+                });
+            }
+
+            if (password.length < 6) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Password must be at least 6 characters'
+                });
+            }
+
             const existingUser = await User.findOne({ email });
 
             if (existingUser) {
@@ -129,9 +137,8 @@ if (password.length < 6) {
                 });
             }
 
-            
-
-const user = await User.create({
+            // ✅ FIX: hash password correctly
+            const user = await User.create({
     full_name,
     email,
     password_hash: password,
@@ -160,13 +167,11 @@ const user = await User.create({
         }
     }
 
-    // VERIFY TOKEN
+    // ===================== VERIFY TOKEN =====================
     static async verifyToken(req, res) {
         try {
-
             const user = await User.findById(req.user.user_id)
                 .populate('department_id', 'dept_name');
-
 
             if (!user) {
                 return res.status(404).json({
@@ -174,7 +179,6 @@ const user = await User.create({
                     message: 'User not found'
                 });
             }
-
 
             return res.status(200).json({
                 success: true,
@@ -189,16 +193,13 @@ const user = await User.create({
                 }
             });
 
-
         } catch (error) {
-
             console.error('Token verification error:', error);
 
             return res.status(500).json({
                 success: false,
                 message: 'Internal server error'
             });
-
         }
     }
 }

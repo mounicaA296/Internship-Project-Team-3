@@ -6,6 +6,10 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
 const complaintRoutes = require('./routes/complaintRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const userRoutes = require('./routes/userRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+const reportRoutes = require('./routes/reportRoutes');
 const { generalLimiter } = require('./middleware/rateLimiter');
 const app = express();
 
@@ -30,7 +34,10 @@ app.use(generalLimiter);
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complaintRoutes);
-
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/reports', reportRoutes);
 // Root route
 app.get('/', (req, res) => {
     res.send('GrievanceHub API Running');
