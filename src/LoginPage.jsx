@@ -10,15 +10,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState('employee@company.com');
   const [password, setPassword] = useState('password123');
   const [rememberMe, setRememberMe] = useState(true);
-const [isSignup, setIsSignup] = useState(false);
-const [signupData, setSignupData] = useState({
-  fullName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  role: 'employee',
-  department: ''
-});
+
   const [alert, setAlert] = useState({
     show: false,
     message: '',
@@ -140,80 +132,18 @@ const [signupData, setSignupData] = useState({
 
     }
   };
-    // ========== SIGNUP HANDLER ==========
-  const handleSignup = async (e) => {
-    e.preventDefault();
 
-    if (!signupData.fullName.trim()) {
-      showAlert('Please enter your full name.');
-      return;
-    }
-
-    if (!signupData.email.trim()) {
-      showAlert('Please enter your email address.');
-      return;
-    }
-
-    if (!signupData.password) {
-      showAlert('Please enter a password.');
-      return;
-    }
-
-    if (signupData.password.length < 6) {
-      showAlert('Password must be at least 6 characters.');
-      return;
-    }
-
-    if (signupData.password !== signupData.confirmPassword) {
-      showAlert('Passwords do not match.');
-      return;
-    }
-
-    try {
-      await api.post('/auth/register', {
-        full_name: signupData.fullName.trim(),
-        email: signupData.email.trim(),
-        password: signupData.password,
-        role: signupData.role,
-        department_id: signupData.department || null
-      });
-
-      showAlert(
-        '✅ Account created successfully! Please login.',
-        'success'
-      );
-
-      setSignupData({
-        fullName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        role: 'employee',
-        department: ''
-      });
-
-      setTimeout(() => {
-        setIsSignup(false);
-      }, 2000);
-
-    } catch (error) {
-
-      showAlert(
-        error.response?.data?.message ||
-        'Signup failed. Please try again.'
-      );
-
-    }
-  };
 
   const handleKeyDown = (e) => {
 
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    handleLogin(e);
-  }
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleLogin(e);
+    }
 
-};
+  };
+
+
   return (
 
     <div className="login-container">
@@ -237,21 +167,20 @@ const [signupData, setSignupData] = useState({
 
 
 
-       <h1 className="login-title">
-  {isSignup ? 'Create Account' : 'Welcome back'}
-</h1>
+        <h1 className="login-title">
+          Welcome back
+        </h1>
 
 
-       <p className="login-sub">
+        <p className="login-sub">
 
-  {isSignup
-    ? 'Sign up to start raising complaints'
-    : currentRole === 'employee'
-      ? 'Sign in to raise and track your complaints'
-      : 'Sign in to manage and resolve grievances'
-  }
+          {
+            currentRole === 'employee'
+              ? 'Sign in to raise and track your complaints'
+              : 'Sign in to manage and resolve grievances'
+          }
 
-</p>
+        </p>
 
 
 
@@ -324,7 +253,7 @@ const [signupData, setSignupData] = useState({
 
 
 
-{!isSignup ? (
+
 
         <form onSubmit={handleLogin}>
 
@@ -437,116 +366,7 @@ const [signupData, setSignupData] = useState({
 
         </form>
 
-) : (
-<form onSubmit={handleSignup}>
 
-  <div className="form-group">
-    <label className="form-label">
-      Full Name <span className="req">*</span>
-    </label>
-
-    <div className="input-wrap">
-      <i className="ti ti-user"></i>
-
-      <input
-        type="text"
-        placeholder="John Doe"
-        value={signupData.fullName}
-        onChange={(e)=>
-          setSignupData({
-            ...signupData,
-            fullName:e.target.value
-          })
-        }
-        required
-      />
-    </div>
-  </div>
-
-
-  <div className="form-group">
-    <label className="form-label">
-      Email Address <span className="req">*</span>
-    </label>
-
-    <div className="input-wrap">
-      <i className="ti ti-mail"></i>
-
-      <input
-        type="email"
-        placeholder="you@company.com"
-        value={signupData.email}
-        onChange={(e)=>
-          setSignupData({
-            ...signupData,
-            email:e.target.value
-          })
-        }
-        required
-      />
-    </div>
-  </div>
-
-
-  <div className="form-group">
-    <label className="form-label">
-      Password <span className="req">*</span>
-    </label>
-
-    <div className="input-wrap">
-      <i className="ti ti-lock"></i>
-
-      <input
-        type="password"
-        placeholder="Minimum 6 characters"
-        value={signupData.password}
-        onChange={(e)=>
-          setSignupData({
-            ...signupData,
-            password:e.target.value
-          })
-        }
-        required
-      />
-    </div>
-  </div>
-
-
-  <div className="form-group">
-    <label className="form-label">
-      Confirm Password <span className="req">*</span>
-    </label>
-
-    <div className="input-wrap">
-      <i className="ti ti-lock"></i>
-
-      <input
-        type="password"
-        placeholder="Confirm password"
-        value={signupData.confirmPassword}
-        onChange={(e)=>
-          setSignupData({
-            ...signupData,
-            confirmPassword:e.target.value
-          })
-        }
-        required
-      />
-    </div>
-  </div>
-
-
-  <button
-    type="submit"
-    className="btn-login"
-  >
-    <i className="ti ti-user-plus"></i>
-    Create Account
-  </button>
-
-
-</form>
-)}
 
 
 
@@ -588,39 +408,17 @@ const [signupData, setSignupData] = useState({
         </div>
 
 
-<div className="login-footer">
 
-  {!isSignup ? (
-    <>
-      Don't have an account?{' '}
-      <a
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          setIsSignup(true);
-        }}
-      >
-        Sign Up
-      </a>
-    </>
-  ) : (
-    <>
-      Already have an account?{' '}
-      <a
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          setIsSignup(false);
-        }}
-      >
-        Sign In
-      </a>
-    </>
-  )}
 
-</div>
 
-     
+        <div className="login-footer">
+
+          Don't have an account?
+          <a href="#">
+            Contact HR
+          </a>
+
+        </div>
 
 
 
