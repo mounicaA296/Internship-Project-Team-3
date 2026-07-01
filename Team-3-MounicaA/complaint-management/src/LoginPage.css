@@ -1,0 +1,250 @@
+/* Isolated Reset */
+.recruitify-layout-wrapper * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.recruitify-layout-wrapper {
+  position: fixed; /* THIS IS THE MAGIC WORD: It escapes all parent constraints */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0A2635; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  z-index: 9999; /* Guarantees nothing overlays it or restricts it */
+}
+
+/* Top Left Logo */
+.top-brand-logo {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.top-brand-logo .logo-icon {
+  color: #23D170; 
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-right: 2px;
+}
+
+/* Main Content Box */
+.recruitify-login-box {
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+  padding: 20px;
+  transform: translateY(-5%); /* Lifted slightly less to fit signup fields */
+  text-align: center;
+}
+
+/* Header Styling */
+.login-header {
+  margin-bottom: 25px;
+}
+
+.login-header .icon-wrapper {
+  color: #23D170;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.login-header h1 {
+  color: #FFFFFF;
+  font-size: 2.2rem;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.login-header p {
+  color: #7A93A0;
+  font-size: 0.95rem;
+}
+
+/* Form Elements */
+.recruitify-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 3-Way Role Toggle */
+.recruitify-role-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.recruitify-role-toggle button {
+  flex: 1;
+  background: #1B3644;
+  border: 1px solid transparent;
+  color: #7A93A0;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.recruitify-role-toggle button.active {
+  background: #0A2635;
+  border: 1px solid #23D170;
+  color: #23D170;
+}
+
+/* Inputs */
+.input-container input {
+  width: 100%;
+  padding: 16px 20px;
+  background-color: #1B3644;
+  border: none;
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-container input::placeholder {
+  color: #7A93A0;
+}
+
+.input-container input:focus {
+  background-color: #203e4d;
+  box-shadow: inset 0 0 0 1px rgba(35, 209, 112, 0.5);
+}
+
+/* Form Options */
+.form-options-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding: 0 5px;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+  font-size: 0.85rem;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.custom-checkbox input {
+  display: none;
+}
+
+.checkmark-box {
+  width: 18px;
+  height: 18px;
+  background-color: #1B3644;
+  border-radius: 4px;
+  position: relative;
+}
+
+.custom-checkbox input:checked + .checkmark-box {
+  background-color: #23D170;
+}
+
+.forgot-link {
+  color: #23D170;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: 0.3s;
+}
+
+.forgot-link:hover {
+  color: #1bb05e;
+}
+
+/* Main Button */
+.neon-green-btn {
+  width: 100%;
+  padding: 16px;
+  background-color: #23D170;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(35, 209, 112, 0.2);
+  transition: 0.3s;
+  margin-top: 5px;
+}
+
+.neon-green-btn:hover {
+  background-color: #1bb05e;
+  transform: translateY(-2px);
+}
+
+/* Alert Banner */
+.custom-alert {
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  color: #ff4757;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.custom-alert.success {
+  background: rgba(35, 209, 112, 0.1);
+  border: 1px solid rgba(35, 209, 112, 0.3);
+  color: #23D170;
+}
+
+/* NEW: Auth Switch Link (Sign Up / Sign In toggle) */
+.auth-switch {
+  margin-top: 25px;
+  color: #7A93A0;
+  font-size: 0.9rem;
+}
+
+.auth-switch span {
+  color: #23D170;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.auth-switch span:hover {
+  color: #1bb05e;
+  text-decoration: underline;
+}
+
+/* The Bottom Waves */
+.bottom-wave-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: 1;
+}
+
+.bottom-wave-container svg {
+  display: block;
+  width: 100%;
+  height: 180px;
+}
