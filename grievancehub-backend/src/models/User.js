@@ -30,6 +30,11 @@ const UserSchema = new mongoose.Schema({
         default: 'employee',
         required: true
     },
+    sla_authorization_level: {
+    type: String,
+    enum: ['L1', 'L2', 'L3'],
+    default: null
+},
 
     department_id: {
     type: mongoose.Schema.Types.ObjectId,

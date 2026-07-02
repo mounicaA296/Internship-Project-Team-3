@@ -1,4 +1,4 @@
-const { User, Department } = require('../models');
+const { User, Department, LoginSession } = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
@@ -39,7 +39,11 @@ class AuthController {
                 password,
                 user.password_hash
             );
-            
+            console.log({
+    enteredPassword: password,
+    storedHash: user.password_hash,
+    isPasswordValid
+});
 
             if (!isPasswordValid) {
                 return res.status(401).json({
@@ -58,6 +62,18 @@ class AuthController {
             await User.findByIdAndUpdate(user._id, {
                 last_login: new Date()
             });
+            const device_type = req.headers['user-agent']?.includes('Mobile')
+    ? 'Mobile'
+    : 'Desktop';
+
+await LoginSession.create({
+    user_id: user._id,
+    login_at: new Date(),
+    device_type,
+    browser: req.headers['user-agent'] || 'Unknown',
+    ip_address: req.ip || req.connection.remoteAddress,
+    is_active: true
+});
 
             const token = jwt.sign(
                 {
@@ -202,6 +218,37 @@ class AuthController {
             });
         }
     }
+    // ===================== LOGOUT =====================
+static async logout(req, res) {
+    try {
+        const userId = req.user.user_id;
+
+        await LoginSession.updateMany(
+            {
+                user_id: userId,
+                is_active: true
+            },
+            {
+                is_active: false,
+                logout_at: new Date()
+            }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: 'Logged out successfully'
+        });
+
+    } catch (error) {
+        console.error('Logout error:', error);
+
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
+    }
 }
+}
+
 
 module.exports = AuthController;

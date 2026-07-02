@@ -6,11 +6,18 @@ const Complaint = require('./Complaint');
 const Notification = require('./Notification');
 const ActivityLog = require('./ActivityLog');
 
+const GrievanceType = require('./GrievanceType');
+const LoginSession = require('./LoginSession');
+const AdminDepartmentScope = require('./AdminDepartmentScope');
+
 module.exports = {
     User,
     Department,
     Status,
     Category,
+    GrievanceType,
+    LoginSession,
+    AdminDepartmentScope,
     Complaint,
     Notification,
     ActivityLog

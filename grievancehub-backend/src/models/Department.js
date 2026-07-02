@@ -13,9 +13,15 @@ const DepartmentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         default: null
+    },
+    grievance_head_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
     }
 
-}, {
+},
+ {
     timestamps: {
         createdAt: 'created_at',
         updatedAt: false

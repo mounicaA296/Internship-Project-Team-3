@@ -11,6 +11,7 @@ const createComplaint = async (req, res) => {
             description,
             priority,
             dept_id,
+            grievance_type_id,
             status_id,
             location,
             incident_date
@@ -22,6 +23,7 @@ const createComplaint = async (req, res) => {
             priority: priority || 'Medium',
             raised_by: req.user.user_id,
             dept_id,
+            grievance_type_id,
             status_id,
             location,
             incident_date
@@ -47,6 +49,7 @@ const getAllComplaints = async (req, res) => {
         const complaints = await Complaint.find()
             .populate('raised_by', 'full_name email')
             .populate('dept_id', 'dept_name')
+            .populate('grievance_type_id', 'type_name')
             .populate('status_id', 'label color_code')
             .sort({ created_at: -1 });
 
@@ -71,6 +74,7 @@ const getComplaintById = async (req, res) => {
         const complaint = await Complaint.findById(req.params.id)
             .populate('raised_by', 'full_name email')
             .populate('dept_id', 'dept_name')
+            .populate('grievance_type_id', 'type_name')
             .populate('status_id', 'label color_code');
 
         if (!complaint) {
@@ -110,6 +114,7 @@ const updateComplaint = async (req, res) => {
             description,
             priority,
             dept_id,
+             grievance_type_id,
             status_id,
             location,
             incident_date
@@ -119,6 +124,8 @@ const updateComplaint = async (req, res) => {
         complaint.description = description || complaint.description;
         complaint.priority = priority || complaint.priority;
         complaint.dept_id = dept_id || complaint.dept_id;
+        complaint.grievance_type_id =
+        grievance_type_id || complaint.grievance_type_id;
         complaint.status_id = status_id || complaint.status_id;
         complaint.location = location || complaint.location;
         complaint.incident_date = incident_date || complaint.incident_date;
@@ -399,9 +406,10 @@ const searchComplaints = async (req, res) => {
         }
 
         const complaints = await Complaint.find(filter)
-            .populate('raised_by', 'full_name email')
+           .populate('raised_by', 'full_name email')
             .populate('dept_id', 'dept_name')
-            .populate('status_id', 'label')
+            .populate('grievance_type_id', 'type_name')
+            .populate('status_id', 'label color_code')
             .sort({
                 created_at: -1
             });

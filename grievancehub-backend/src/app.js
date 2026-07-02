@@ -10,6 +10,9 @@ const dashboardRoutes = require('./routes/dashboardRoutes');
 const userRoutes = require('./routes/userRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const grievanceTypeRoutes = require('./routes/grievanceTypeRoutes');
+const adminDepartmentScopeRoutes = require('./routes/adminDepartmentScopeRoutes');
+const departmentRoutes = require('./routes/departmentRoutes');
 const { generalLimiter } = require('./middleware/rateLimiter');
 const app = express();
 
@@ -38,7 +41,9 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/reports', reportRoutes);
-// Root route
+app.use('/api/grievance-types', grievanceTypeRoutes);
+app.use('/api/departments', departmentRoutes);
+app.use('/api/admin-department-scopes', adminDepartmentScopeRoutes);// Root route
 app.get('/', (req, res) => {
     res.send('GrievanceHub API Running');
 });

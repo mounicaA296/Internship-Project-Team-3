@@ -12,6 +12,22 @@ const NotificationSchema = new mongoose.Schema({
         ref: 'Complaint',
         default: null
     },
+    channel: {
+    type: String,
+    enum: ['in_app', 'email'],
+    default: 'in_app'
+},
+
+delivery_status: {
+    type: String,
+    enum: ['pending', 'sent', 'failed'],
+    default: 'pending'
+},
+
+error_message: {
+    type: String,
+    default: null
+},
     type: {
         type: String,
         enum: ['assignment', 'status_change', 'comment', 'sla_breach', 'escalation'],

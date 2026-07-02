@@ -182,6 +182,11 @@ const ComplaintSchema = new mongoose.Schema({
         required: [true, 'Title is required'],
         maxlength: [200, 'Title cannot exceed 200 characters']
     },
+    grievance_type_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'GrievanceType',
+    default: null
+},
 
     description: {
         type: String,

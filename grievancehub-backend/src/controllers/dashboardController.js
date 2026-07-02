@@ -55,7 +55,7 @@ class DashboardController {
                 .limit(5)
                 .populate('raised_by', 'full_name email')
                 .populate('dept_id', 'dept_name')
-                .populate('status_id', 'label color_code');
+                .populate('status_id', 'label color_code')
 
             let departmentStats = [];
 
@@ -207,7 +207,7 @@ class DashboardController {
 
                 .populate('dept_id', 'dept_name')
 
-                .populate('status_id', 'label color_code');
+                .populate('status_id', 'label color_code')
 
 
 

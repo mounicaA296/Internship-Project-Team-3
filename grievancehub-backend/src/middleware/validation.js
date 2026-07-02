@@ -16,12 +16,16 @@ const validateComplaint = [
         .isIn(['High', 'Medium', 'Low']).withMessage('Invalid priority'),
 
     body('dept_id')
-        .notEmpty().withMessage('Department is required')
-        .isMongoId().withMessage('Invalid Department ID'),
+    .notEmpty().withMessage('Department is required')
+    .isMongoId().withMessage('Invalid Department ID'),
 
-    body('status_id')
-        .notEmpty().withMessage('Status is required')
-        .isMongoId().withMessage('Invalid Status ID'),
+body('grievance_type_id')
+    .optional()
+    .isMongoId().withMessage('Invalid Grievance Type ID'),
+
+body('status_id')
+    .notEmpty().withMessage('Status is required')
+    .isMongoId().withMessage('Invalid Status ID'),
 
     body('location')
         .optional()

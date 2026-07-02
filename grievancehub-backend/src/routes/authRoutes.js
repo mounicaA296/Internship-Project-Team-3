@@ -14,11 +14,7 @@ router.post('/register', AuthController.register);
 router.get('/verify', authenticate, AuthController.verifyToken);
 
 // Logout route
-router.post('/logout', (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: 'Logged out successfully'
-    });
-});
+// Logout route
+router.post('/logout', authenticate, AuthController.logout);
 
 module.exports = router;
